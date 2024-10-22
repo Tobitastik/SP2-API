@@ -1,5 +1,7 @@
 package apivision.config;
 
+import apivision.entities.Adoption;
+import apivision.entities.Appointment;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -14,9 +16,11 @@ public class HibernateConfig {
     private static EntityManagerFactory emfTest;
     private static boolean isTest = false;
 
+
     public static boolean getIsTest() {
         return isTest;
     }
+
 
     public static void setIsTest(boolean _isTest) {
         isTest = _isTest;
@@ -42,6 +46,8 @@ public class HibernateConfig {
 
     // TODO: IMPORTANT: Add Entity classes here for them to be registered with Hibernate
     private static void getAnnotationConfiguration(Configuration configuration) {
+        configuration.addAnnotatedClass(Appointment.class);
+        configuration.addAnnotatedClass(Adoption.class);
 
     }
 

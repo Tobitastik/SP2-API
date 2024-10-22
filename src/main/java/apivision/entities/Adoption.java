@@ -1,16 +1,18 @@
 package apivision.entities;
 
+import apivision.dtos.AdoptionDTO;
 import apivision.enums.AdoptionStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Entity
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Adoption {
 
     @Id
@@ -18,12 +20,18 @@ public class Adoption {
     private int id;
     private int userId;
     private int petId;
-    @Setter
     @Column(nullable = false)
     private LocalDateTime date;
-    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "adoption_status", nullable = false)
     private AdoptionStatus status;
+
+    public Adoption(AdoptionDTO adoptionDTO){
+        this.id = adoptionDTO.getId();
+        this.userId = adoptionDTO.getUserId();
+        this.petId = adoptionDTO.getPetId();
+        this.date = adoptionDTO.getDate();
+        this.status = adoptionDTO.getStatus();
+    }
 
 }

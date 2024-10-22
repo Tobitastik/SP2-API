@@ -1,11 +1,10 @@
 package apivision.daos;
 
-import apivision.dtos.AdoptionDTO;
-
 import java.util.List;
+import java.util.Optional;
 
 public interface IDAO<T> {
-    List<AdoptionDTO> getAll();
+    List<T> getAll();
     T getById(int id);
     void save(T entity);
     void update(T entity);

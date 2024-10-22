@@ -2,7 +2,9 @@ package apivision.dtos;
 
 import apivision.entities.Adoption;
 import apivision.enums.AdoptionStatus;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,26 +12,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdoptionDTO {
-    private final int id;
-    private final int userId;
-    private final int petId;
-    @Setter
+    private int id;
+    private int userId;
+    private int petId;
     private LocalDateTime date;
-    @Setter
     private AdoptionStatus status;
 
-    public AdoptionDTO(Adoption adoption) {
-        this.id = adoption.getId();
-        this.userId = adoption.getUserId();
-        this.petId = adoption.getPetId();
-        this.date = adoption.getDate();
-        this.status = adoption.getStatus();
+
+    public static AdoptionDTO toDTO(Adoption adoption) {
+        return new AdoptionDTO(adoption.getId(), adoption.getUserId(), adoption.getPetId(), adoption.getDate(), adoption.getStatus());
     }
 
-    // Add static method to convert a list of Adoption entities to a list of AdoptionDTOs
-    public static List<AdoptionDTO> toDTOList(List<Adoption> adoptions) {
-        return adoptions.stream().map(AdoptionDTO::new).collect(Collectors.toList());
+    public static Adoption toEntity(AdoptionDTO adoptionDTO) {
+        return new Adoption(adoptionDTO);
+    }
+
+    public static List<AdoptionDTO> toDTOList(List<Adoption> adoptionList) {
+        return adoptionList.stream().map(AdoptionDTO::toDTO).collect(Collectors.toList());
     }
 }

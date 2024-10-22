@@ -1,8 +1,8 @@
 package apivision.daos;
 
 import apivision.config.HibernateConfig;
-import apivision.dtos.AdoptionDTO;
-import apivision.entities.Adoption;
+import apivision.dtos.AppointmentDTO;
+import apivision.entities.Appointment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -11,32 +11,32 @@ import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdoptionDAO implements IDAO<Adoption> {
+public class AppointmentDAO implements IDAO<Appointment> {
 
     private static EntityManagerFactory emf;
 
-    public AdoptionDAO() {
+    public AppointmentDAO() {
         emf = HibernateConfig.getEntityManagerFactory("petadoption");
     }
 
     @Override
-    public List<Adoption> getAll() {
-        List<Adoption> adoptionList = new ArrayList<>();
+    public List<Appointment> getAll() {
+        List<Appointment> appointmentList = new ArrayList<>();
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Adoption> query = em.createQuery("SELECT a FROM Adoption a", Adoption.class);
+            TypedQuery<Appointment> query = em.createQuery("SELECT a FROM Appointment a", Appointment.class);
             return query.getResultList();
         }
     }
 
     @Override
-    public Adoption getById(int id) {
+    public Appointment getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.find(Adoption.class, id);
+            return em.find(Appointment.class, id);
         }
     }
 
     @Override
-    public void save(Adoption entity) {
+    public void save(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
@@ -46,7 +46,7 @@ public class AdoptionDAO implements IDAO<Adoption> {
     }
 
     @Override
-    public void update(Adoption entity) {
+    public void update(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
@@ -60,8 +60,8 @@ public class AdoptionDAO implements IDAO<Adoption> {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            Adoption adoption = em.find(Adoption.class, id);
-            em.remove(adoption);
+            Appointment appointment = em.find(Appointment.class, id);
+            em.remove(appointment);
             transaction.commit();
         }
     }
