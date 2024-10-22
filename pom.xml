@@ -49,7 +49,6 @@
             <version>${jbcrypt.version}</version>
         </dependency>
 
-
         <!-- SLF4J API -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -82,21 +81,19 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <!--        DATABASE-->
-        <!--        https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/The-JPA-and-Hibernate-CRUD-operations-example-->
+        <!-- DATABASE -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
-        <!--        &lt;!&ndash;        https://www.postgresqltutorial.com/postgresql-getting-started/&ndash;&gt;-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
-        <!--        TESTING       -->
-        <!--        https://www.baeldung.com/junit-5-->
+
+        <!-- TESTING -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -109,14 +106,18 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--        https://www.baeldung.com/hamcrest-core-matchers-->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--        https://java.testcontainers.org/quickstart/junit_5_quickstart/-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.0.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -145,7 +146,8 @@
             <artifactId>HikariCP</artifactId>
             <version>${hikari.version}</version>
         </dependency>
-        <!--        https://www.baeldung.com/intro-to-project-lombok-->
+
+        <!-- Project Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -178,7 +180,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
-
         </plugins>
     </build>
 
