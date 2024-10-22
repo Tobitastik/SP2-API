@@ -1,5 +1,3 @@
 package apivision.controllers;
 
-public class DogControllerTest {
-
-}
+public class DogControllerTest {}

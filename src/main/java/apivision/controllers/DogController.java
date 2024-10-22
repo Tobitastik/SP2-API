@@ -30,41 +30,31 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void readAll(Context ctx) {
-        // List of DTOS
         List<DogDTO> dogDTOS = dao.readAll();
-        // response
         ctx.res().setStatus(200);
         ctx.json(dogDTOS, DogDTO.class);
     }
 
     @Override
     public void create(Context ctx) {
-        // request
         DogDTO jsonRequest = ctx.bodyAsClass(DogDTO.class);
-        // DTO
         DogDTO dogDTO = dao.create(jsonRequest);
-        // response
         ctx.res().setStatus(201);
         ctx.json(dogDTO, DogDTO.class);
     }
 
     @Override
     public void update(Context ctx) {
-        // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
-        // dto
         DogDTO dogDTO = dao.update(id, validateEntity(ctx));
-        // response
         ctx.res().setStatus(200);
         ctx.json(dogDTO, DogDTO.class);
     }
 
     @Override
     public void delete(Context ctx) {
-        // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         dao.delete(id);
-        // response
         ctx.res().setStatus(204);
     }
 

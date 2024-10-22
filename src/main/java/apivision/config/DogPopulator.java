@@ -1,5 +1,4 @@
 package apivision.config;
-
 import apivision.entities.Dog;
 import apivision.enums.DogStatus;
 import jakarta.persistence.EntityManager;

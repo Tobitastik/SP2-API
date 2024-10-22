@@ -66,14 +66,14 @@ class DogDAOTest {
     void testUpdateDog() {
         DogDTO updatedDog = new DogDTO(1, "Buddy", "Golden Retriever", 4, DogStatus.AVAILABLE, "Updated description");
         dogList.add(updatedDog); // Manually updating the list
-        assertEquals(4, dogList.get(0).getAge()); // Verify the updated age
+        assertEquals(4, dogList.get(0).getAge());
     }
 
     @Test
     void testDeleteDog() {
-        dogList.add(dog1); // Manually adding dog1
-        dogList.remove(dog1); // Simulate deletion
-        assertEquals(0, dogList.size()); // Should be empty now
+        dogList.add(dog1);
+        dogList.remove(dog1);
+        assertEquals(0, dogList.size());
     }
 
     @Test
@@ -82,6 +82,6 @@ class DogDAOTest {
         dogList.add(dog2);
 
         List<DogDTO> allDogs = dogDAO.readAll();
-        assertEquals(2, allDogs.size()); // Should have both dogs
+        assertEquals(2, allDogs.size());
     }
 }

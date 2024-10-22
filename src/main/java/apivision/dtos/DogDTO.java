@@ -18,7 +18,6 @@ public class DogDTO {
     private String description;
 
 
-
     // Static method to convert DTO to Entity
     public static Dog convertToEntity(DogDTO dogDTO) {
         return new Dog(dogDTO);

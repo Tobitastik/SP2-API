@@ -45,10 +45,10 @@ public class DogDAO {
     public DogDTO create(DogDTO dogDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Dog dog = new Dog(dogDTO);  // Using the constructor that accepts DogDTO
+            Dog dog = new Dog(dogDTO);
             em.persist(dog);
             em.getTransaction().commit();
-            return DogDTO.convertToDTO(dog);  // Convert to DogDTO after persisting
+            return DogDTO.convertToDTO(dog);
         }
     }
 
@@ -65,9 +65,9 @@ public class DogDAO {
                 dog.setDescription(dogDTO.getDescription());
                 em.merge(dog);
                 em.getTransaction().commit();
-                return DogDTO.convertToDTO(dog);  // Convert to DogDTO after updating
+                return DogDTO.convertToDTO(dog);
             }
-            return null;  // Return null if dog is not found
+            return null;
         }
     }
 
