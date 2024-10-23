@@ -1,0 +1,40 @@
+### Get All Dogs
+GET http://localhost:7070/api/dogs
+Accept: application/json
+
+###
+
+### Get a Dog by ID
+GET http://localhost:7070/api/dog/1
+Accept: application/json
+
+###
+
+### Create a New Dog
+POST http://localhost:7070/api/dog
+Content-Type: application/json
+
+{
+  "name": "Bobby",
+  "breed": "Golden Retriever",
+  "age": 5
+}
+
+###
+
+### Update a Dog by ID
+PUT http://localhost:7070/api/dog/1
+Content-Type: application/json
+
+{
+  "name": "Max",
+  "breed": "Golden Retriever",
+  "age": 4
+}
+
+###
+
+### Delete a Dog by ID
+DELETE http://localhost:7070/api/dog/1
+
+###
