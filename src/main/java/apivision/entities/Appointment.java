@@ -20,10 +20,16 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private int userId;
-    private int petId;
+
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
+    private Dog dog;
+
     @Column(nullable = false)
     private LocalDateTime date;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "appointment_status", nullable = false)
     private AppointmentStatus status;
@@ -31,7 +37,7 @@ public class Appointment {
     public Appointment(AppointmentDTO appointmentDTO){
         this.id = appointmentDTO.getId();
         this.userId = appointmentDTO.getUserId();
-        this.petId = appointmentDTO.getPetId();
+        this.dog = appointmentDTO.getDog();
         this.date = appointmentDTO.getDate();
         this.status = appointmentDTO.getStatus();
     }

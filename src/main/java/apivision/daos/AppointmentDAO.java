@@ -1,26 +1,32 @@
 package apivision.daos;
 
-import apivision.config.HibernateConfig;
 import apivision.dtos.AppointmentDTO;
 import apivision.entities.Appointment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
+import lombok.NoArgsConstructor;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentDAO implements IDAO<Appointment> {
+@NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+public class AppointmentDAO {
 
+    private static AppointmentDAO instance;
     private static EntityManagerFactory emf;
 
-    public AppointmentDAO() {
-        emf = HibernateConfig.getEntityManagerFactory("petadoption");
+    public static AppointmentDAO getInstance(EntityManagerFactory _emf) {
+        if(instance == null) {
+            emf = _emf;
+            instance = new AppointmentDAO();
+        }
+        return instance;
     }
 
-    @Override
-    public List<Appointment> getAll() {
+    public List<AppointmentDTO> readAll() {
         List<Appointment> appointmentList = new ArrayList<>();
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<Appointment> query = em.createQuery("SELECT a FROM Appointment a", Appointment.class);
@@ -28,15 +34,13 @@ public class AppointmentDAO implements IDAO<Appointment> {
         }
     }
 
-    @Override
-    public Appointment getById(int id) {
+    public Appointment read(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.find(Appointment.class, id);
+            return em.find(Appointment.class, integer);
         }
     }
 
-    @Override
-    public void save(Appointment entity) {
+    public void create(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
@@ -45,7 +49,6 @@ public class AppointmentDAO implements IDAO<Appointment> {
         }
     }
 
-    @Override
     public void update(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
@@ -55,7 +58,6 @@ public class AppointmentDAO implements IDAO<Appointment> {
         }
     }
 
-    @Override
     public void delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
@@ -63,6 +65,13 @@ public class AppointmentDAO implements IDAO<Appointment> {
             Appointment appointment = em.find(Appointment.class, id);
             em.remove(appointment);
             transaction.commit();
+        }
+    }
+
+    public boolean validatePrimaryKey(Integer integer) {
+        try (EntityManager em = emf.createEntityManager()) {
+            Appointment appointment = em.find(Appointment.class, integer);
+            return appointment != null;
         }
     }
 }

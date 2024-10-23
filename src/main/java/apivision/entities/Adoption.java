@@ -18,10 +18,16 @@ public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private int userId;
-    private int petId;
+
+    @ManyToOne
+    @JoinColumn(name = "dog_id")
+    private Dog dog;
+
     @Column(nullable = false)
     private LocalDateTime date;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "adoption_status", nullable = false)
     private AdoptionStatus status;
@@ -29,7 +35,7 @@ public class Adoption {
     public Adoption(AdoptionDTO adoptionDTO){
         this.id = adoptionDTO.getId();
         this.userId = adoptionDTO.getUserId();
-        this.petId = adoptionDTO.getPetId();
+        this.dog = adoptionDTO.getDog();
         this.date = adoptionDTO.getDate();
         this.status = adoptionDTO.getStatus();
     }
