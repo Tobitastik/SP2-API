@@ -94,15 +94,13 @@ public class AppointmentController implements IController<AppointmentDTO, Intege
         return dao.validatePrimaryKey(integer);
     }
 
-    /*@Override
+    @Override
     public AppointmentDTO validateEntity(Context ctx) {
         return ctx.bodyValidator(AppointmentDTO.class)
-                .check(a -> a.get != null && !d.getName().isEmpty(), "Appointment name must be set")
-                .check(d -> d.getDescription() != null && !d.getDescription().isEmpty(), "Appointment description must be set")
-                .check(d -> d.getDateTime() != null, "Appointment date and time must be set")
+                .check(d -> d.getDate() != null, "Appointment date and time must be set")
                 .check(d -> d.getStatus() != null, "Appointment status must be set")
                 .get();
-    }*/
+    }
 
     // Helper method to check if the user has the required role
     private boolean userHasRole(UserDTO user, String... roles) {
