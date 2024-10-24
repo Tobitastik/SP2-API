@@ -3,7 +3,7 @@ package apivision.controllers;
 import apivision.config.HibernateConfig;
 import apivision.daos.DogDAO;
 import apivision.dtos.DogDTO;
-import dk.bugelhartmann.UserDTO;
+import dk.bugelhartmann.UserDTO;  // Assuming you have this UserDTO for user role information
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -20,9 +20,8 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void read(Context ctx) {
+        // Check if user has ADMIN or MASTER role
         UserDTO user = ctx.attribute("user");
-
-        // Debugging: Print the user's roles
         if (!userHasRole(user, "ADMIN", "MASTER")) {
             System.out.println("User does not have permission to access this resource. Roles: " + user.getRoles());
             ctx.status(403).result("Forbidden: You do not have permission to access this resource.");
@@ -45,9 +44,8 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void create(Context ctx) {
+        // Check if user has ADMIN or MASTER role
         UserDTO user = ctx.attribute("user");
-
-        // Debugging: Print the user's roles
         if (!userHasRole(user, "ADMIN", "MASTER")) {
             System.out.println("User does not have permission to create a new dog. Roles: " + user.getRoles());
             ctx.status(403).result("Forbidden: You do not have permission to create a new dog.");
@@ -62,9 +60,8 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void update(Context ctx) {
+        // Check if user has ADMIN or MASTER role
         UserDTO user = ctx.attribute("user");
-
-        // Debugging: Print the user's roles
         if (!userHasRole(user, "ADMIN", "MASTER")) {
             System.out.println("User does not have permission to update this dog. Roles: " + user.getRoles());
             ctx.status(403).result("Forbidden: You do not have permission to update this dog.");
@@ -79,9 +76,8 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void delete(Context ctx) {
+        // Check if user has ADMIN or MASTER role
         UserDTO user = ctx.attribute("user");
-
-        // Debugging: Print the user's roles
         if (!userHasRole(user, "ADMIN", "MASTER")) {
             System.out.println("User does not have permission to delete this dog. Roles: " + user.getRoles());
             ctx.status(403).result("Forbidden: You do not have permission to delete this dog.");
@@ -108,6 +104,7 @@ public class DogController implements IController<DogDTO, Integer> {
                 .get();
     }
 
+    // Helper method to check if the user has the required role
     private boolean userHasRole(UserDTO user, String... roles) {
         for (String role : roles) {
             if (user.getRoles().contains(role)) {
