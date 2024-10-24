@@ -47,4 +47,13 @@ public class DogDTO {
 
         );
     }
+    public DogDTO(int id, String name, String breed, Integer age, DogStatus status, String description) {
+        this.id = id;
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.status = status;
+        this.description = description;
+    }
+
 }

@@ -14,6 +14,9 @@ public class DogDAO {
 
     private static DogDAO instance;
     private static EntityManagerFactory emf;
+    public EntityManagerFactory getEmf() {
+        return emf;
+    }
 
     // Singleton pattern for DAO instance
     public static DogDAO getInstance(EntityManagerFactory _emf) {
@@ -52,7 +55,6 @@ public class DogDAO {
         }
     }
 
-    // Update a dog by ID
     public DogDTO update(Integer id, DogDTO dogDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -63,13 +65,15 @@ public class DogDAO {
                 dog.setAge(dogDTO.getAge());
                 dog.setStatus(dogDTO.getStatus());
                 dog.setDescription(dogDTO.getDescription());
-                em.merge(dog);
+                // No need for merge here, as 'dog' is managed.
                 em.getTransaction().commit();
                 return DogDTO.convertToDTO(dog);
             }
+            em.getTransaction().rollback(); // Rollback transaction if not found
             return null;
         }
     }
+
 
     // Delete a dog by ID
     public void delete(Integer id) {
