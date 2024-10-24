@@ -1,0 +1,82 @@
+
+
+### A simple GET request to the test endpoint. No need for login.
+GET {{url}}/auth/test/
+Accept: application/json
+
+### Register a new user - this one will only get a USER role by default
+POST {{url}}/auth/register/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "Tobi2402",
+  "password": "test123dj8"
+}
+
+### Login the user
+POST {{url}}/auth/login/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "Tobi2402",
+  "password": "test123dj8"
+}
+
+> {%
+    client.global.set("jwt_token", response.body.token);
+    console.log("JWT Token:", client.global.get("jwt_token"));
+%}
+
+### Get All Dogs (accessible to all users)
+GET {{url}}/dogs/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Get a Dog by ID (only accessible to ADMIN or MASTER)
+GET {{url}}/dogs/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Create a New Dog (only accessible to ADMIN or MASTER)
+POST {{url}}/dogs/
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "Bobby",
+  "breed": "Golden Retriever",
+  "age": 5,
+  "status": "available"
+}
+
+### Update a Dog by ID (only accessible to ADMIN or MASTER)
+PUT {{url}}/dogs/1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "Max",
+  "breed": "Golden Retriever",
+  "age": 4,
+  "status": "available"
+}
+
+### Delete a Dog by ID (only accessible to ADMIN or MASTER)
+DELETE {{url}}/dogs/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Reset the token (optional for testing)
+GET {{url}}/auth/test/
+
+> {%
+    client.global.set("jwt_token", null);
+    console.log("JWT Token reset to:", client.global.get("jwt_token"));
+%}
+
+### Final GET request to list all dogs, testing without authorization (after resetting token)
+GET {{url}}/dogs/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
