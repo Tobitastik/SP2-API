@@ -1,8 +1,8 @@
 package apivision.config;
 
-
-import apivision.config.HibernateConfig;
-import apivision.entities.Dog;
+import apivision.entities.*;
+import apivision.enums.AdoptionStatus;
+import apivision.enums.AppointmentStatus;
 import apivision.enums.DogStatus;
 import apivision.security.daos.SecurityDAO;
 import apivision.security.entitiess.Role;
@@ -10,11 +10,12 @@ import apivision.security.entitiess.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.time.LocalDateTime;
+
 public class Populator {
 
     public static void main(String[] args) {
-        // Use the HibernateConfig to get the EntityManagerFactory
-        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("petadoption"); // Replace with actual DB name
+        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("petadoption");
         SecurityDAO securityDAO = new SecurityDAO(emf);
         EntityManager em = emf.createEntityManager();
 
@@ -25,10 +26,8 @@ public class Populator {
             User user = new User("testuser", "password123"); // Password will be hashed
             Role adminRole = new Role("ADMIN");
 
-            // Add role to user
             user.addRole(adminRole);
 
-            // Persist role and user in the database
             em.persist(adminRole); // Persist the role first
             em.persist(user);
 
@@ -38,17 +37,30 @@ public class Populator {
             Dog dog1 = new Dog(0, "Buddy", "Golden Retriever", 3, DogStatus.AVAILABLE, "Friendly and playful");
             Dog dog2 = new Dog(0, "Max", "German Shepherd", 5, DogStatus.AVAILABLE, "Loyal and protective");
             Dog dog3 = new Dog(0, "Bella", "Labrador Retriever", 2, DogStatus.ADOPTED, "Gentle and loving");
-            Dog dog4 = new Dog(0, "Charlie", "Beagle", 4, DogStatus.AVAILABLE, "Curious and merry");
-            Dog dog5 = new Dog(0, "Lucy", "Bulldog", 6, DogStatus.AVAILABLE, "Calm and courageous");
 
-            // Persist dogs in the database
             em.persist(dog1);
             em.persist(dog2);
             em.persist(dog3);
-            em.persist(dog4);
-            em.persist(dog5);
 
             System.out.println("Dogs populated successfully!");
+
+            // Create an adoption for dog3 (adopted dog)
+            Adoption adoption = new Adoption(0, user.getUsername(), dog3, LocalDateTime.now(), AdoptionStatus.APPROVED);
+            dog3.setAdoption(adoption);
+
+            em.persist(adoption);
+
+            // Create appointments for all dogs
+            Appointment appointment1 = new Appointment(0, user.getUsername(), dog1, LocalDateTime.now().plusDays(1), AppointmentStatus.SCHEDULED);
+            dog1.getAppointments().add(appointment1);
+            em.persist(appointment1);
+
+            Appointment appointment2 = new Appointment(0, user.getUsername(), dog2, LocalDateTime.now().plusDays(2), AppointmentStatus.SCHEDULED);
+            dog2.getAppointments().add(appointment2);
+            em.persist(appointment2);
+
+            // Note: dog3 is adopted and won't have an appointment
+            System.out.println("Appointments created for available dogs successfully!");
 
             // Commit the transaction
             em.getTransaction().commit();

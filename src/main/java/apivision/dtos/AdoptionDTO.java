@@ -1,6 +1,7 @@
 package apivision.dtos;
 
 import apivision.entities.Adoption;
+import apivision.entities.Dog;
 import apivision.enums.AdoptionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,11 +18,10 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AdoptionDTO {
     private int id;
-    private int userId;
+    private String userId;
     private Dog dog;
     private LocalDateTime date;
     private AdoptionStatus status;
-
 
     public static AdoptionDTO toDTO(Adoption adoption) {
         return new AdoptionDTO(adoption.getId(), adoption.getUserId(), adoption.getDog(), adoption.getDate(), adoption.getStatus());

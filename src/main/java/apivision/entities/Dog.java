@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "dog")
 @Data
@@ -33,7 +36,21 @@ public class Dog {
 
     @Column(length = 500)
     private String description;
+    @OneToOne(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Adoption adoption;
 
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Appointment> appointments = new HashSet<>();
+
+    public Dog(int id, String name, String breed, int age, DogStatus status, String description) {
+        this.id = id;
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.status = status;
+        this.description = description;
+        this.appointments = new HashSet<>(); // Initialize appointments set
+    }
 
     public Dog(DogDTO dogDTO) {
         this.id = dogDTO.getId();
@@ -42,5 +59,9 @@ public class Dog {
         this.age = dogDTO.getAge();
         this.status = dogDTO.getStatus();
         this.description = dogDTO.getDescription();
+        this.adoption = dogDTO.getAdoption();
+        this.appointments = dogDTO.getAppointments();
+
     }
+
 }

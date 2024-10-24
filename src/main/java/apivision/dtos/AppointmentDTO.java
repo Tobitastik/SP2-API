@@ -1,6 +1,7 @@
 package apivision.dtos;
 
 import apivision.entities.Appointment;
+import apivision.entities.Dog;
 import apivision.enums.AppointmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AppointmentDTO {
     private int id;
-    private int userId;
+    private String userId;
     private Dog dog;
     private LocalDateTime date;
     private AppointmentStatus status;

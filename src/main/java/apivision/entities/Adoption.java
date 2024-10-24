@@ -19,10 +19,10 @@ public class Adoption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int userId;
+    private String userId;
 
-    @ManyToOne
-    @JoinColumn(name = "dog_id")//husk at ændre til det rigtige navn
+    @OneToOne
+    @JoinColumn(name = "dog_id", nullable = false, unique = true)  // Use dog_id and make it unique
     private Dog dog;
 
     @Column(nullable = false)

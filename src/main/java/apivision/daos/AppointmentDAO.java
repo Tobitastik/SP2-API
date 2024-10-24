@@ -27,12 +27,19 @@ public class AppointmentDAO {
     }
 
     public List<AppointmentDTO> readAll() {
-        List<Appointment> appointmentList = new ArrayList<>();
+        List<AppointmentDTO> appointmentDTOList = new ArrayList<>();
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<Appointment> query = em.createQuery("SELECT a FROM Appointment a", Appointment.class);
-            return query.getResultList();
+            List<Appointment> appointmentList = query.getResultList();
+
+            // Convert each Appointment entity to AppointmentDTO
+            for (Appointment appointment : appointmentList) {
+                appointmentDTOList.add(AppointmentDTO.toDTO(appointment));
+            }
         }
+        return appointmentDTOList;
     }
+
 
     public Appointment read(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {

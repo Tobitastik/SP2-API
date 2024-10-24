@@ -21,10 +21,10 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int userId;
+    private String userId;
 
     @ManyToOne
-    @JoinColumn(name = "pet_id")//Husk at ændre til det rigtige navn
+    @JoinColumn(name = "dog_id", nullable = false)  // Use the correct name for the foreign key
     private Dog dog;
 
     @Column(nullable = false)
