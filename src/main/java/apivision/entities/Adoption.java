@@ -22,7 +22,7 @@ public class Adoption {
     private int userId;
 
     @ManyToOne
-    @JoinColumn(name = "dog_id")
+    @JoinColumn(name = "dog_id")//husk at ændre til det rigtige navn
     private Dog dog;
 
     @Column(nullable = false)

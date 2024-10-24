@@ -24,7 +24,7 @@ public class Appointment {
     private int userId;
 
     @ManyToOne
-    @JoinColumn(name = "pet_id")
+    @JoinColumn(name = "pet_id")//Husk at ændre til det rigtige navn
     private Dog dog;
 
     @Column(nullable = false)
