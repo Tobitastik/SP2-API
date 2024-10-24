@@ -63,7 +63,7 @@ public class DogController implements IController<DogDTO, Integer> {
         return dao.validatePrimaryKey(integer);
     }
 
-    @Override
+   @Override
     public DogDTO validateEntity(Context ctx) {
         return ctx.bodyValidator(DogDTO.class)
                 .check(d -> d.getName() != null && !d.getName().isEmpty(), "Dog name must be set")
