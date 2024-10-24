@@ -1,0 +1,94 @@
+### A simple GET request to the test endpoint (No token needed)
+GET {{url}}/dogs/test/
+
+### Create a new dog (No token needed)
+POST {{url}}/dogs/
+Content-Type: application/json
+
+{
+  "name": "Buddy",
+  "breed": "Labrador",
+  "age": 3,
+  "status": "available"
+}
+
+###
+
+### Get all dogs (No token needed)
+GET {{url}}/dogs/
+Accept: application/json
+
+###
+
+### Get a specific dog by ID
+GET {{url}}/dog/1
+Accept: application/json
+
+###
+
+### Update a dog by ID (Requires token)
+PUT {{url}}/dog/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "Max",
+  "breed": "Labrador",
+  "age": 4,
+  "status": "available"
+}
+
+###
+
+### Delete a dog by ID (Requires token)
+DELETE {{url}}/dog/1/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+###
+
+### POST example for creating multiple dogs (Requires token)
+POST {{url}}/dogs/
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+[
+  {
+    "name": "Charlie",
+    "breed": "Beagle",
+    "age": 2,
+    "status": "available"
+  },
+  {
+    "name": "Rocky",
+    "breed": "Bulldog",
+    "age": 5,
+    "status": "available"
+  }
+]
+
+###
+
+### Get request for a protected endpoint (Requires token)
+GET {{url}}/protected/dog_demo/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+###
+
+### Reset token (If needed)
+GET {{url}}/auth/test/
+
+> {%
+    client.global.set("jwt_token", null);
+    console.log("JWT Token:", client.global.get("jwt_token"));
+%}
+
+###
+
+### GET request to retrieve all dogs (Requires token)
+GET {{url}}/dogs/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
