@@ -1,5 +1,6 @@
 package apivision.security.routes;
 
+import apivision.routes.DogRoutes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import apivision.utils.Utils;
 import apivision.security.controllers.SecurityController;
@@ -33,6 +34,14 @@ public class SecurityRoutes {
                 get("/admin_demo", ctx -> ctx.json(jsonMapper.createObjectNode().put("msg", "Hello from ADMIN Protected")));
                 get("/master_demo", ctx -> ctx.json(jsonMapper.createObjectNode().put("msg", "Hello from MASTER Protected")));
             });
+        };
+    }
+
+    private final DogRoutes dogRoutes = new DogRoutes();
+
+    public EndpointGroup getRoutes() {
+        return () -> {
+            path("/dogs", dogRoutes.getRoutes());  // All dog-related routes are protected based on user roles
         };
     }
 }

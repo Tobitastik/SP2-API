@@ -3,6 +3,7 @@ package apivision.controllers;
 import apivision.config.HibernateConfig;
 import apivision.daos.DogDAO;
 import apivision.dtos.DogDTO;
+import dk.bugelhartmann.UserDTO;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -19,43 +20,77 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void read(Context ctx) {
-        // request
+        UserDTO user = ctx.attribute("user");
+
+        // Debugging: Print the user's roles
+        if (!userHasRole(user, "ADMIN", "MASTER")) {
+            System.out.println("User does not have permission to access this resource. Roles: " + user.getRoles());
+            ctx.status(403).result("Forbidden: You do not have permission to access this resource.");
+            return;
+        }
+
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
-        // DTO
         DogDTO dogDTO = dao.read(id);
-        // response
-        ctx.res().setStatus(200);
-        ctx.json(dogDTO, DogDTO.class);
+        ctx.status(200);
+        ctx.json(dogDTO);
     }
 
     @Override
     public void readAll(Context ctx) {
+        // All users can view the list of dogs
         List<DogDTO> dogDTOS = dao.readAll();
-        ctx.res().setStatus(200);
-        ctx.json(dogDTOS, DogDTO.class);
+        ctx.status(200);
+        ctx.json(dogDTOS);
     }
 
     @Override
     public void create(Context ctx) {
+        UserDTO user = ctx.attribute("user");
+
+        // Debugging: Print the user's roles
+        if (!userHasRole(user, "ADMIN", "MASTER")) {
+            System.out.println("User does not have permission to create a new dog. Roles: " + user.getRoles());
+            ctx.status(403).result("Forbidden: You do not have permission to create a new dog.");
+            return;
+        }
+
         DogDTO jsonRequest = ctx.bodyAsClass(DogDTO.class);
         DogDTO dogDTO = dao.create(jsonRequest);
-        ctx.res().setStatus(201);
-        ctx.json(dogDTO, DogDTO.class);
+        ctx.status(201);
+        ctx.json(dogDTO);
     }
 
     @Override
     public void update(Context ctx) {
+        UserDTO user = ctx.attribute("user");
+
+        // Debugging: Print the user's roles
+        if (!userHasRole(user, "ADMIN", "MASTER")) {
+            System.out.println("User does not have permission to update this dog. Roles: " + user.getRoles());
+            ctx.status(403).result("Forbidden: You do not have permission to update this dog.");
+            return;
+        }
+
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         DogDTO dogDTO = dao.update(id, validateEntity(ctx));
-        ctx.res().setStatus(200);
-        ctx.json(dogDTO, DogDTO.class);
+        ctx.status(200);
+        ctx.json(dogDTO);
     }
 
     @Override
     public void delete(Context ctx) {
+        UserDTO user = ctx.attribute("user");
+
+        // Debugging: Print the user's roles
+        if (!userHasRole(user, "ADMIN", "MASTER")) {
+            System.out.println("User does not have permission to delete this dog. Roles: " + user.getRoles());
+            ctx.status(403).result("Forbidden: You do not have permission to delete this dog.");
+            return;
+        }
+
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         dao.delete(id);
-        ctx.res().setStatus(204);
+        ctx.status(204);
     }
 
     @Override
@@ -63,7 +98,7 @@ public class DogController implements IController<DogDTO, Integer> {
         return dao.validatePrimaryKey(integer);
     }
 
-   @Override
+    @Override
     public DogDTO validateEntity(Context ctx) {
         return ctx.bodyValidator(DogDTO.class)
                 .check(d -> d.getName() != null && !d.getName().isEmpty(), "Dog name must be set")
@@ -71,5 +106,14 @@ public class DogController implements IController<DogDTO, Integer> {
                 .check(d -> d.getAge() != null && d.getAge() > 0, "Dog age must be a positive number")
                 .check(d -> d.getStatus() != null, "Dog status must be set")
                 .get();
+    }
+
+    private boolean userHasRole(UserDTO user, String... roles) {
+        for (String role : roles) {
+            if (user.getRoles().contains(role)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
