@@ -51,7 +51,7 @@ public class HibernateConfig {
 
     // TODO: IMPORTANT: Add Entity classes here for them to be registered with Hibernate
     private static void getAnnotationConfiguration(Configuration configuration) {
- 
+
         configuration.addAnnotatedClass(Appointment.class);
         configuration.addAnnotatedClass(Adoption.class);
 
@@ -60,7 +60,7 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Role.class);
         configuration.addAnnotatedClass(Adoption.class);
         configuration.addAnnotatedClass(Appointment.class);
- 
+
 
     }
 
@@ -113,7 +113,7 @@ public class HibernateConfig {
     }
 
     private static Properties setDevProperties(Properties props, String DBName) {
-        props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
+        props.put("hibernate.connection.url", "jdbc:postgresql://db:5432/" + DBName);
         props.put("hibernate.connection.username", "postgres");
         props.put("hibernate.connection.password", "postgres");
         return props;
