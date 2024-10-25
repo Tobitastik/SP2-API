@@ -2,6 +2,7 @@ package apivision.entities;
 
 import apivision.dtos.AdoptionDTO;
 import apivision.enums.AdoptionStatus;
+import apivision.security.entitiess.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,9 @@ public class Adoption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String userId;
+
+    @JoinColumn(name = "username", nullable = false)
+    private String username;
 
     @OneToOne
     @JoinColumn(name = "dog_id", nullable = false, unique = true)  // Use dog_id and make it unique
@@ -34,7 +37,7 @@ public class Adoption {
 
     public Adoption(AdoptionDTO adoptionDTO){
         this.id = adoptionDTO.getId();
-        this.userId = adoptionDTO.getUserId();
+        this.username = adoptionDTO.getUsername();
         this.dog = adoptionDTO.getDog();
         this.date = adoptionDTO.getDate();
         this.status = adoptionDTO.getStatus();

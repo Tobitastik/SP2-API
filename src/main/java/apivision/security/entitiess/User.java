@@ -1,5 +1,6 @@
 package apivision.security.entitiess;
 
+import apivision.entities.Appointment;
 import jakarta.persistence.*;
 import lombok.*;
 import org.mindrot.jbcrypt.BCrypt;
@@ -7,6 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**

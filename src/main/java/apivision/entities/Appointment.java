@@ -2,6 +2,7 @@ package apivision.entities;
 
 import apivision.dtos.AppointmentDTO;
 import apivision.enums.AppointmentStatus;
+import apivision.security.entitiess.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,9 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String userId;
+
+    @JoinColumn(name = "username", nullable = false)
+    private String username;
 
     @ManyToOne
     @JoinColumn(name = "dog_id", nullable = false)  // Use the correct name for the foreign key
@@ -36,7 +39,7 @@ public class Appointment {
 
     public Appointment(AppointmentDTO appointmentDTO){
         this.id = appointmentDTO.getId();
-        this.userId = appointmentDTO.getUserId();
+        this.username = appointmentDTO.getUsername();
         this.dog = appointmentDTO.getDog();
         this.date = appointmentDTO.getDate();
         this.status = appointmentDTO.getStatus();
