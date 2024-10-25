@@ -4,7 +4,6 @@ import apivision.config.HibernateConfig;
 import apivision.security.daos.SecurityDAO;
 import apivision.security.entitiess.User;
 import apivision.security.exceptions.ValidationException;
-import apivision.security.exceptions.ApiException;
 import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
@@ -27,27 +26,24 @@ class SecurityDAOTest {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
         securityDAO = new SecurityDAO(emf);
 
-        // Cleanup existing user before creating a new one
+        // Create a test user if it does not already exist
+        user = new User("testuser", "password123");
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            User existingUser = em.find(User.class, "testuser");
-            if (existingUser != null) {
-                em.remove(existingUser);
+            // Only create the user if it does not already exist
+            if (em.find(User.class, user.getUsername()) == null) {
+                em.persist(user);
             }
             em.getTransaction().commit();
         }
-
-        // Create a test user
-        user = new User("testuser", "password123");
-        securityDAO.createUser(user.getUsername(), user.getPassword());
     }
 
-   /* @Test
+    @Test
     void getVerifiedUser_ValidCredentials_ReturnsUserDTO() throws ValidationException {
         UserDTO verifiedUser = securityDAO.getVerifiedUser("testuser", "password123");
         assertNotNull(verifiedUser);
         assertEquals("testuser", verifiedUser.getUsername());
-    }*/
+    }
 
     @Test
     void getVerifiedUser_InvalidPassword_ThrowsValidationException() {
@@ -56,12 +52,12 @@ class SecurityDAOTest {
         });
     }
 
-   /* @Test
+    @Test
     void createUser_UserAlreadyExists_ThrowsEntityExistsException() {
         assertThrows(EntityExistsException.class, () -> {
             securityDAO.createUser("testuser", "password123");
         });
-    }*/
+    }
 
     @Test
     void addRole_ValidUserAndRole_AddsRoleToUser() {
