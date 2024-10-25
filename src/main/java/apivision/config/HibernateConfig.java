@@ -58,6 +58,8 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Dog.class);
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Role.class);
+        configuration.addAnnotatedClass(Adoption.class);
+        configuration.addAnnotatedClass(Appointment.class);
  
 
     }
@@ -106,6 +108,7 @@ public class HibernateConfig {
         props.setProperty("hibernate.connection.url", System.getenv("CONNECTION_STR") + DBName);
         props.setProperty("hibernate.connection.username", System.getenv("DB_USERNAME"));
         props.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
+
         return props;
     }
 
