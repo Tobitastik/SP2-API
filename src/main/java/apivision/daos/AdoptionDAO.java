@@ -1,9 +1,6 @@
 package apivision.daos;
 
-import apivision.config.HibernateConfig;
-import apivision.dtos.AdoptionDTO;
 import apivision.entities.Adoption;
-import apivision.entities.Appointment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -16,7 +13,6 @@ public class AdoptionDAO {
 
     private static AdoptionDAO instance;
     private static EntityManagerFactory emf;
-
 
     public static AdoptionDAO getInstance(EntityManagerFactory _emf) {
         if(instance == null) {
@@ -68,11 +64,12 @@ public class AdoptionDAO {
         }
     }
 
-    public boolean validatePrimaryKey(Integer integer) {
+    public Adoption getByUsernameAndId(String username, int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            Adoption adoption = em.find(Adoption.class, integer);
-            return adoption != null;
+            TypedQuery<Adoption> query = em.createQuery("SELECT a FROM Adoption a WHERE a.username = :username AND a.id = :id", Adoption.class);
+            query.setParameter("username", username);
+            query.setParameter("id", id);
+            return query.getSingleResult();
         }
     }
-
 }
