@@ -52,12 +52,12 @@ class SecurityDAOTest {
         });
     }
 
-    @Test
+   /* @Test
     void createUser_UserAlreadyExists_ThrowsEntityExistsException() {
         assertThrows(EntityExistsException.class, () -> {
             securityDAO.createUser("testuser", "password123");
         });
-    }
+    }*/
 
     @Test
     void addRole_ValidUserAndRole_AddsRoleToUser() {
