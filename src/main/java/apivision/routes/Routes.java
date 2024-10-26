@@ -9,7 +9,7 @@ public class Routes {
 
     public EndpointGroup getRoutes() {
         return () -> {
-            path("/dogs", dogRoutes.getRoutes());  // All dog-related routes are protected based on user roles
+            path("/dogs", dogRoutes.getRoutes());
         };
     }
 }

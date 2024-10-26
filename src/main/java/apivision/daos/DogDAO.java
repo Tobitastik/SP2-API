@@ -87,7 +87,7 @@ public class DogDAO {
         }
     }
 
-    // Validate Primary Key (Check if Dog with this ID exists)
+    // Validate Primary Key
     public boolean validatePrimaryKey(Integer id) {
         try (EntityManager em = emf.createEntityManager()) {
             Dog dog = em.find(Dog.class, id);

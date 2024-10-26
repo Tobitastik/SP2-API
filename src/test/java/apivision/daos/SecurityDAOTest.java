@@ -5,7 +5,6 @@ import apivision.security.daos.SecurityDAO;
 import apivision.security.entitiess.User;
 import apivision.security.exceptions.ValidationException;
 import dk.bugelhartmann.UserDTO;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
