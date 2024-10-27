@@ -49,7 +49,7 @@ public class Dog {
         this.age = age;
         this.status = status;
         this.description = description;
-        this.appointments = new HashSet<>(); // Initialize appointments set
+        this.appointments = new HashSet<>();
     }
 
     public Dog(DogDTO dogDTO) {

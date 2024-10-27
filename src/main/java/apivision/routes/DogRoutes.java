@@ -11,11 +11,11 @@ public class DogRoutes {
 
     public EndpointGroup getRoutes() {
         return () -> {
-            post("/", dogController::create);  // Only ADMIN and MASTER can create
-            get("/", dogController::readAll);   // All users can view all dogs
-            get("/{id}", dogController::read);   // Only ADMIN and MASTER can get dog by ID
-            put("/{id}", dogController::update);  // Only ADMIN and MASTER can update
-            delete("/{id}", dogController::delete);  // Only ADMIN and MASTER can delete
+            post("/", dogController::create);
+            get("/", dogController::readAll);
+            get("/{id}", dogController::read);
+            put("/{id}", dogController::update);
+            delete("/{id}", dogController::delete);
         };
     }
 }

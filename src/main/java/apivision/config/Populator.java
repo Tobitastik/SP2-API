@@ -1,5 +1,6 @@
 package apivision.config;
 
+import apivision.dtos.DogDTO;
 import apivision.entities.*;
 import apivision.enums.AdoptionStatus;
 import apivision.enums.AppointmentStatus;
@@ -7,8 +8,10 @@ import apivision.enums.DogStatus;
 import apivision.security.daos.SecurityDAO;
 import apivision.security.entitiess.Role;
 import apivision.security.entitiess.User;
+import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 import java.time.LocalDateTime;
 
@@ -22,15 +25,14 @@ public class Populator {
         try {
             em.getTransaction().begin();
 
-            // Create and populate the user with a role
-            User user = new User("testuser", "password123"); // Password will be hashed
-            Role adminRole = new Role("ADMIN");
+            // Check if role exists, otherwise create it
+            Role adminRole = findOrCreateRole(em, "ADMIN");
 
-            user.addRole(adminRole);
+            // Check if user exists, otherwise create it
+            User user = findOrCreateUser(em, "testuser", "password123"); // Password will be hashed
+            user.addRole(adminRole); // Add role to user
 
-            em.persist(adminRole); // Persist the role first
             em.persist(user);
-
             System.out.println("User and role successfully added to the database.");
 
             // Create and populate dogs
@@ -47,7 +49,6 @@ public class Populator {
             // Create an adoption for dog3 (adopted dog)
             Adoption adoption = new Adoption(0, user.getUsername(), dog3, LocalDateTime.now(), AdoptionStatus.APPROVED);
             dog3.setAdoption(adoption);
-
             em.persist(adoption);
 
             // Create appointments for all dogs
@@ -59,7 +60,6 @@ public class Populator {
             dog2.getAppointments().add(appointment2);
             em.persist(appointment2);
 
-            // Note: dog3 is adopted and won't have an appointment
             System.out.println("Appointments created for available dogs successfully!");
 
             // Commit the transaction
@@ -71,7 +71,30 @@ public class Populator {
             e.printStackTrace();
         } finally {
             em.close();
-            emf.close();
+        }
+    }
+
+    private static Role findOrCreateRole(EntityManager em, String roleName) {
+        try {
+            return em.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
+                    .setParameter("name", roleName)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            Role newRole = new Role(roleName);
+            em.persist(newRole);
+            return newRole;
+        }
+    }
+
+    private static User findOrCreateUser(EntityManager em, String username, String password) {
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            User newUser = new User(username, password); // Ensure password is hashed as needed
+            em.persist(newUser);
+            return newUser;
         }
     }
 }

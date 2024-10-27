@@ -31,7 +31,7 @@ class DogDAOTest {
         d2 = new Dog(0, "Max", "German Shepherd", 5, DogStatus.AVAILABLE, "Loyal and protective");
         d3 = new Dog(0, "Bella", "Labrador Retriever", 2, DogStatus.ADOPTED, "Gentle and loving");
 
-        // Persist and get generated IDs
+        // Persis dogs
         d1.setId(dogDAO.create(DogDTO.convertToDTO(d1)).getId());
         d2.setId(dogDAO.create(DogDTO.convertToDTO(d2)).getId());
         d3.setId(dogDAO.create(DogDTO.convertToDTO(d3)).getId());
@@ -47,8 +47,8 @@ class DogDAOTest {
         Dog d4 = new Dog(0, "Charlie", "Beagle", 4, DogStatus.AVAILABLE, "Curious and merry");
         DogDTO dto = DogDTO.convertToDTO(d4);
         DogDTO createdDog = dogDAO.create(dto);
-        assertNotNull(createdDog.getId()); // Check if ID is set
-        assertEquals("Charlie", createdDog.getName()); // Verify the name
+        assertNotNull(createdDog.getId());
+        assertEquals("Charlie", createdDog.getName());
     }
 
     @Test
@@ -69,6 +69,6 @@ class DogDAOTest {
     @Test
     void delete() {
         dogDAO.delete(d1.getId());
-        assertNull(dogDAO.read(d1.getId())); // Check if the dog is deleted
+        assertNull(dogDAO.read(d1.getId()));
     }
 }

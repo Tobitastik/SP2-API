@@ -4,6 +4,7 @@ import apivision.entities.Adoption;
 import apivision.entities.Appointment;
 import apivision.entities.Dog;
 import apivision.enums.DogStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -17,6 +18,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DogDTO {
     private int id;
     private String name;
