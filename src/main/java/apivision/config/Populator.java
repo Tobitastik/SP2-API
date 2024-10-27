@@ -70,7 +70,7 @@ public class Populator {
             }
             e.printStackTrace();
         } finally {
-            em.close(); // Ensure EntityManager is closed
+            em.close();
         }
     }
 
