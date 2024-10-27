@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class AppointmentDTO {
     private int id;
     private String username;
     private Dog dog;
-    private LocalDateTime date;
+    private LocalDate date;
     private AppointmentStatus status;
 
     public AppointmentDTO(Appointment appointment) {

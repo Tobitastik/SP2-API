@@ -56,24 +56,25 @@ public class AppointmentDAO {
         }
     }
 
-    public void update(Appointment entity) {
+    public Appointment update(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
             em.merge(entity);
             transaction.commit();
         }
+        return entity;
     }
 
-    public void delete(int id) {
+    public void delete(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            Appointment appointment = em.find(Appointment.class, id);
-            em.remove(appointment);
+            em.remove(em.find(Appointment.class, integer));
             transaction.commit();
         }
     }
+
 
     public boolean validatePrimaryKey(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
