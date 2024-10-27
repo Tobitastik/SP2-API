@@ -1,5 +1,6 @@
 package apivision.daos;
 
+import apivision.dtos.AdoptionDTO;
 import apivision.entities.Adoption;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -8,6 +9,7 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdoptionDAO {
 
@@ -22,15 +24,15 @@ public class AdoptionDAO {
         return instance;
     }
 
-    public List<Adoption> getAll() {
-        List<Adoption> adoptionList = new ArrayList<>();
-        try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Adoption> query = em.createQuery("SELECT a FROM Adoption a", Adoption.class);
-            return query.getResultList();
+    public List<AdoptionDTO> readAll() {
+        try (EntityManager entityManager = emf.createEntityManager()) {
+            List<Adoption> adoptions = entityManager.createQuery("SELECT a FROM Adoption a", Adoption.class).getResultList();
+            List<AdoptionDTO> adoptionDTOS = adoptions.stream().map(AdoptionDTO::toDTO).collect(Collectors.toList());
+            return adoptionDTOS;
         }
     }
 
-    public Adoption getById(int id) {
+    public Adoption read(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Adoption.class, id);
         }

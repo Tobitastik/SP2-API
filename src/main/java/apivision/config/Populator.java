@@ -13,7 +13,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Populator {
 
@@ -47,16 +47,16 @@ public class Populator {
             System.out.println("Dogs populated successfully!");
 
             // Create an adoption for dog3 (adopted dog)
-            Adoption adoption = new Adoption(0, user.getUsername(), dog3, LocalDateTime.now(), AdoptionStatus.APPROVED);
+            Adoption adoption = new Adoption(0, user.getUsername(), dog3, LocalDate.now(), AdoptionStatus.APPROVED);
             dog3.setAdoption(adoption);
             em.persist(adoption);
 
             // Create appointments for all dogs
-            Appointment appointment1 = new Appointment(0, user.getUsername(), dog1, LocalDateTime.now().plusDays(1), AppointmentStatus.SCHEDULED);
+            Appointment appointment1 = new Appointment(0, user.getUsername(), dog1, LocalDate.now().plusDays(1), AppointmentStatus.SCHEDULED);
             dog1.getAppointments().add(appointment1);
             em.persist(appointment1);
 
-            Appointment appointment2 = new Appointment(0, user.getUsername(), dog2, LocalDateTime.now().plusDays(2), AppointmentStatus.SCHEDULED);
+            Appointment appointment2 = new Appointment(0, user.getUsername(), dog2, LocalDate.now().plusDays(2), AppointmentStatus.SCHEDULED);
             dog2.getAppointments().add(appointment2);
             em.persist(appointment2);
 

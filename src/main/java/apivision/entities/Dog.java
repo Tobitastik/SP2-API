@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"adoption", "appointments"})
 public class Dog {
 
     @Id
@@ -40,6 +44,7 @@ public class Dog {
     private Adoption adoption;
 
     @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.JOIN) // Retrieve all appointments along with the dog
     private Set<Appointment> appointments = new HashSet<>();
 
     public Dog(int id, String name, String breed, int age, DogStatus status, String description) {

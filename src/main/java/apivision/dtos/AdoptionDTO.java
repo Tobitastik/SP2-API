@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ public class AdoptionDTO {
     private int id;
     private String username;
     private Dog dog;
-    private LocalDateTime date;
+    private LocalDate date;
     private AdoptionStatus status;
 
     public static AdoptionDTO toDTO(Adoption adoption) {
