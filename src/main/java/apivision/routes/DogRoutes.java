@@ -1,6 +1,7 @@
 package apivision.routes;
 
 import apivision.controllers.DogController;
+import apivision.security.enums.Role;
 import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
