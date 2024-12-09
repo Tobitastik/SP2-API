@@ -17,7 +17,7 @@ import java.time.LocalDate;
 
 public class Populator {
 
-    public static void main(String[] args) {
+    public static void run() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("petadoption");
         SecurityDAO securityDAO = new SecurityDAO(emf);
         EntityManager em = emf.createEntityManager();

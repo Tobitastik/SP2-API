@@ -1,8 +1,7 @@
 package apivision.entities;
 
-import apivision.dtos.AppointmentDTO;
 import apivision.enums.AppointmentStatus;
-import apivision.security.entitiess.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,12 +21,12 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     @JoinColumn(name = "username", nullable = false)
     private String username;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "dog_id", nullable = false)
+    @JsonBackReference // Prevent circular reference when serializing Dog
     private Dog dog;
 
     @Column(nullable = false)
@@ -37,12 +36,12 @@ public class Appointment {
     @Column(name = "appointment_status", nullable = false)
     private AppointmentStatus status;
 
-    public Appointment(AppointmentDTO appointmentDTO){
-        this.id = appointmentDTO.getId();
-        this.username = appointmentDTO.getUsername();
-        this.dog = appointmentDTO.getDog();
-        this.date = appointmentDTO.getDate();
-        this.status = appointmentDTO.getStatus();
+    // Optional utility constructor for easy creation
+    public Appointment(String username, Dog dog, LocalDate date, AppointmentStatus status) {
+        this.username = username;
+        this.dog = dog;
+        this.date = date;
+        this.status = status;
     }
 
     @Override
@@ -61,5 +60,4 @@ public class Appointment {
     public int hashCode() {
         return Objects.hash(id, username, date, status);
     }
-
 }

@@ -56,7 +56,8 @@ public class AdoptionController implements IController<AdoptionDTO, Integer> {
 
         AdoptionDTO jsonRequest = ctx.bodyAsClass(AdoptionDTO.class);
         Adoption adoption = AdoptionDTO.toEntity(jsonRequest);
-        AdoptionDTO adoptionDTO = dao.create(adoption);
+        dao.create(adoption);
+        AdoptionDTO adoptionDTO = AdoptionDTO.toDTO(adoption);
         ctx.status(201);
         ctx.json(adoptionDTO);
     }
