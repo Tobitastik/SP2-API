@@ -3,6 +3,7 @@ package apivision.security.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nimbusds.jose.JOSEException;
+import apivision.utils.Utils;
 import apivision.config.HibernateConfig;
 import apivision.security.daos.ISecurityDAO;
 import apivision.security.daos.SecurityDAO;
@@ -10,11 +11,9 @@ import apivision.security.entitiess.User;
 import apivision.security.exceptions.ApiException;
 import apivision.security.exceptions.NotAuthorizedException;
 import apivision.security.exceptions.ValidationException;
-import apivision.utils.Utils;
 import dk.bugelhartmann.ITokenSecurity;
 import dk.bugelhartmann.TokenSecurity;
 import dk.bugelhartmann.UserDTO;
-import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.UnauthorizedResponse;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
 
 /**
  * Purpose: To handle security in the API
- * Author: Thomas Hartmann
  */
 public class SecurityController implements ISecurityController {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -45,10 +43,8 @@ public class SecurityController implements ISecurityController {
     public static SecurityController getInstance() { // Singleton because we don't want multiple instances of the same class
         if (instance == null) {
             instance = new SecurityController();
-            // Determine the database name based on the environment
-            String dbName = HibernateConfig.getIsTest() ? "test_db" : "petadoption"; // use 'petadoption' for production
-            securityDAO = new SecurityDAO(HibernateConfig.getEntityManagerFactory(dbName));
         }
+        securityDAO = new SecurityDAO(HibernateConfig.getEntityManagerFactory("petadoption"));
         return instance;
     }
 
@@ -130,12 +126,12 @@ public class SecurityController implements ISecurityController {
             throw new UnauthorizedResponse("You need to log in, dude!");
         }
         Set<String> roleNames = allowedRoles.stream()
-                .map(RouteRole::toString)  // Convert RouteRoles to Set of Strings
-                .collect(Collectors.toSet());
+                   .map(RouteRole::toString)  // Convert RouteRoles to  Set of Strings
+                   .collect(Collectors.toSet());
         return user.getRoles().stream()
-                .map(String::toUpperCase)
-                .anyMatch(roleNames::contains);
-    }
+                   .map(String::toUpperCase)
+                   .anyMatch(roleNames::contains);
+        }
 
     @Override
     public String createToken(UserDTO user) {
@@ -189,12 +185,9 @@ public class SecurityController implements ISecurityController {
                 ctx.status(200).json(returnObject.put("msg", "Role " + newRole + " added to user"));
             } catch (EntityNotFoundException e) {
                 ctx.status(404).json("{\"msg\": \"User not found\"}");
+
             }
         };
     }
 
-    // Health check for the API. Used in deployment
-    public void healthCheck(@NotNull Context ctx) {
-        ctx.status(200).json("{\"msg\": \"API is up and running\"}");
-    }
 }

@@ -1,8 +1,9 @@
 package apivision.security.exceptions;
 
+import apivision.utils.Utils;
+
 /**
  * Purpose: To handle exceptions in the API
- * Author: Thomas Hartmann
  */
 public class ApiException extends RuntimeException {
     private int code;

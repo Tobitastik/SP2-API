@@ -1,5 +1,7 @@
 package apivision.security.enums;
 
-public enum Role {
-   ANYONE, USER, ADMIN,MASTER
+import io.javalin.security.RouteRole;
+
+public enum Role implements RouteRole {
+    ANYONE, USER, ADMIN, SUPERMAN;
 }
