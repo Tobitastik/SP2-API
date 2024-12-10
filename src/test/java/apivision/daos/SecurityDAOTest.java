@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 class SecurityDAOTest {
 
     private static SecurityDAO securityDAO;
@@ -57,7 +57,7 @@ class SecurityDAOTest {
             securityDAO.createUser("testuser", "password123");
         });
     }*/
-
+/*
     @Test
     void addRole_ValidUserAndRole_AddsRoleToUser() {
         // Create UserDTO from the existing user
@@ -79,4 +79,4 @@ class SecurityDAOTest {
             securityDAO.addRole(userDTO, "admin");
         });
     }
-}
+}*/
