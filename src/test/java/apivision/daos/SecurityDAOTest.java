@@ -2,9 +2,10 @@ package apivision.daos;
 
 import apivision.config.HibernateConfig;
 import apivision.security.daos.SecurityDAO;
-import apivision.security.entities.User;
+import apivision.security.entitiess.User;
 import apivision.security.exceptions.ValidationException;
 import dk.bugelhartmann.UserDTO;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-/*
+
 class SecurityDAOTest {
 
     private static SecurityDAO securityDAO;
@@ -51,13 +52,13 @@ class SecurityDAOTest {
         });
     }
 
-   /* @Test
+/*  @Test
     void createUser_UserAlreadyExists_ThrowsEntityExistsException() {
         assertThrows(EntityExistsException.class, () -> {
             securityDAO.createUser("testuser", "password123");
         });
     }*/
-/*
+
     @Test
     void addRole_ValidUserAndRole_AddsRoleToUser() {
         // Create UserDTO from the existing user
@@ -79,4 +80,4 @@ class SecurityDAOTest {
             securityDAO.addRole(userDTO, "admin");
         });
     }
-}*/
+}
