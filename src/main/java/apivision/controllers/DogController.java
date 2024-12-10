@@ -6,6 +6,7 @@ import apivision.dtos.DogDTO;
 import dk.bugelhartmann.UserDTO;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -108,4 +109,5 @@ public class DogController implements IController<DogDTO, Integer> {
         }
         return false;
     }
+
 }

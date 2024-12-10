@@ -12,11 +12,11 @@ public class DogRoutes {
 
     public EndpointGroup getRoutes() {
         return () -> {
-            post("/", dogController::create);
-            get("/", dogController::readAll);
-            get("/{id}", dogController::read);
-            put("/{id}", dogController::update);
-            delete("/{id}", dogController::delete);
+            post("/", dogController::create, Role.ADMIN);
+            get("/", dogController::readAll, Role.ANYONE);
+            get("/{id}", dogController::read, Role.ANYONE);
+            put("/{id}", dogController::update, Role.ADMIN);
+            delete("/{id}", dogController::delete, Role.ADMIN);
         };
     }
 }

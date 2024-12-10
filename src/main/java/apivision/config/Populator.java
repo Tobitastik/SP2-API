@@ -1,6 +1,5 @@
 package apivision.config;
 
-import apivision.dtos.DogDTO;
 import apivision.entities.*;
 import apivision.enums.AdoptionStatus;
 import apivision.enums.AppointmentStatus;
@@ -8,7 +7,6 @@ import apivision.enums.DogStatus;
 import apivision.security.daos.SecurityDAO;
 import apivision.security.entitiess.Role;
 import apivision.security.entitiess.User;
-import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;

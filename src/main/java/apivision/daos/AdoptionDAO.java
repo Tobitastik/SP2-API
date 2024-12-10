@@ -2,6 +2,7 @@ package apivision.daos;
 
 import apivision.dtos.AdoptionDTO;
 import apivision.entities.Adoption;
+import apivision.entities.Appointment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -47,12 +48,18 @@ public class AdoptionDAO {
         }
     }
 
-    public void update(Adoption entity) {
+    public AdoptionDTO update(int id, Adoption entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            em.merge(entity);
+            Adoption adoption = em.find(Adoption.class, id);
+            adoption.setUsername(entity.getUsername());
+            adoption.setDog(entity.getDog());
+            adoption.setDate(entity.getDate());
+            adoption.setStatus(entity.getStatus());
+            em.merge(adoption);
             transaction.commit();
+            return AdoptionDTO.toDTO(adoption);
         }
     }
 
@@ -72,6 +79,13 @@ public class AdoptionDAO {
             query.setParameter("username", username);
             query.setParameter("id", id);
             return query.getSingleResult();
+        }
+    }
+
+    public boolean validatePrimaryKey(Integer integer) {
+        try (EntityManager em = emf.createEntityManager()) {
+            Appointment appointment = em.find(Appointment.class, integer);
+            return appointment != null;
         }
     }
 }

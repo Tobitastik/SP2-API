@@ -2,6 +2,8 @@ package apivision.entities;
 
 import apivision.dtos.DogDTO;
 import apivision.enums.DogStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +20,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"adoption", "appointments"})
+
+@JsonIgnoreProperties({"adoption", "appointments"})
 public class Dog {
 
     @Id
@@ -40,11 +43,12 @@ public class Dog {
 
     @Column(length = 500)
     private String description;
-    @OneToOne(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToOne(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Adoption adoption;
 
-    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.JOIN) // Retrieve all appointments along with the dog
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    //@Fetch(FetchMode.JOIN) // Retrieve all appointments along with the dog
     private Set<Appointment> appointments = new HashSet<>();
 
     public Dog(int id, String name, String breed, int age, DogStatus status, String description) {

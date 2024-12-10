@@ -3,20 +3,20 @@ package apivision.security.daos;
 
 import apivision.security.entitiess.Role;
 import apivision.security.entitiess.User;
-import apivision.security.exceptions.ValidationException;
 import apivision.security.exceptions.ApiException;
+import apivision.security.exceptions.ValidationException;
 import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
 /**
  * Purpose: To handle security in the API
- * Author: Thomas Hartmann
  */
 public class SecurityDAO implements ISecurityDAO {
 

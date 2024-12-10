@@ -2,7 +2,7 @@ package apivision.daos;
 
 import apivision.config.HibernateConfig;
 import apivision.security.daos.SecurityDAO;
-import apivision.security.entitiess.User;
+import apivision.security.entities.User;
 import apivision.security.exceptions.ValidationException;
 import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;

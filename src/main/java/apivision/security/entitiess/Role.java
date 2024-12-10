@@ -1,15 +1,15 @@
 package apivision.security.entitiess;
 
-
 import jakarta.persistence.*;
 import lombok.ToString;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * Purpose: To handle security in the API
+ */
 @Entity
 @Table(name = "roles")
 @NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE from Role"))
