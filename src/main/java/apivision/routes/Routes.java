@@ -10,6 +10,8 @@ public class Routes {
     public EndpointGroup getRoutes() {
         return () -> {
             path("/dogs", dogRoutes.getRoutes());
+            path("/adoption", new AdoptionRoutes().getRoutes());
+            path("/appointment", new AppointmentRoutes().getRoutes());
         };
     }
 }

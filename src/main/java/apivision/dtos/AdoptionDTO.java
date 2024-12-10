@@ -24,6 +24,7 @@ public class AdoptionDTO {
     private LocalDate date;
     private AdoptionStatus status;
 
+
     public static AdoptionDTO toDTO(Adoption adoption) {
         return new AdoptionDTO(adoption.getId(), adoption.getUsername(), adoption.getDog(), adoption.getDate(), adoption.getStatus());
     }
