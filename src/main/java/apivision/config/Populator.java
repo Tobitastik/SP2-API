@@ -39,10 +39,12 @@ public class Populator {
             Dog dog1 = new Dog(0, "Buddy", "Golden Retriever", 3, DogStatus.AVAILABLE, "Friendly and playful");
             Dog dog2 = new Dog(0, "Max", "German Shepherd", 5, DogStatus.AVAILABLE, "Loyal and protective");
             Dog dog3 = new Dog(0, "Bella", "Labrador Retriever", 2, DogStatus.ADOPTED, "Gentle and loving");
+            Dog dog4 = new Dog(0, "Niels", "Rough Collie", 3, DogStatus.AVAILABLE, "Friendly and playful");
 
             em.persist(dog1);
             em.persist(dog2);
             em.persist(dog3);
+            em.persist(dog4);
 
             System.out.println("Dogs populated successfully!");
 
@@ -59,6 +61,8 @@ public class Populator {
             Appointment appointment2 = new Appointment(0, user.getUsername(), dog2, LocalDate.now().plusDays(2), AppointmentStatus.SCHEDULED);
             dog2.getAppointments().add(appointment2);
             em.persist(appointment2);
+
+            Appointment appointment3 = new Appointment(0, user.getUsername(), dog2, LocalDate.now().plusDays(3), AppointmentStatus.SCHEDULED);
 
             System.out.println("Appointments created for available dogs successfully!");
 

@@ -26,7 +26,7 @@ public class Appointment {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "dog_id", nullable = false)
-    @JsonBackReference // Prevent circular reference when serializing Dog
+    @JsonBackReference
     private Dog dog;
 
     @Column(nullable = false)
@@ -36,7 +36,7 @@ public class Appointment {
     @Column(name = "appointment_status", nullable = false)
     private AppointmentStatus status;
 
-    // Optional utility constructor for easy creation
+
     public Appointment(String username, Dog dog, LocalDate date, AppointmentStatus status) {
         this.username = username;
         this.dog = dog;

@@ -2,6 +2,7 @@ package apivision.daos;
 
 import apivision.dtos.AdoptionDTO;
 import apivision.entities.Adoption;
+import apivision.entities.Appointment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -78,6 +79,13 @@ public class AdoptionDAO {
             query.setParameter("username", username);
             query.setParameter("id", id);
             return query.getSingleResult();
+        }
+    }
+
+    public boolean validatePrimaryKey(Integer integer) {
+        try (EntityManager em = emf.createEntityManager()) {
+            Appointment appointment = em.find(Appointment.class, integer);
+            return appointment != null;
         }
     }
 }

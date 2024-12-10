@@ -9,7 +9,7 @@ import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
-/*
+
 public class AdoptionController implements IController<AdoptionDTO, Integer> {
 
     private final AdoptionDAO dao;
@@ -62,7 +62,6 @@ public class AdoptionController implements IController<AdoptionDTO, Integer> {
         ctx.json(adoptionDTO);
     }
 
-    @Override
     public void update(Context ctx) {
         // Check if user has ADMIN or MASTER role
         UserDTO user = ctx.attribute("user");
@@ -73,9 +72,11 @@ public class AdoptionController implements IController<AdoptionDTO, Integer> {
         }
 
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
-        AdoptionDTO adoptionDTO = dao.update(id, validateEntity(ctx));
+        AdoptionDTO adoptionDTO = validateEntity(ctx);
+        Adoption adoption = AdoptionDTO.toEntity(adoptionDTO);
+        AdoptionDTO updatedAdoptionDTO = dao.update(id, adoption);
         ctx.status(200);
-        ctx.json(adoptionDTO);
+        ctx.json(updatedAdoptionDTO);
     }
 
     @Override
@@ -117,4 +118,4 @@ public class AdoptionController implements IController<AdoptionDTO, Integer> {
         }
         return false;
     }
-}*/
+}
