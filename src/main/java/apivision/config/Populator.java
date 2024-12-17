@@ -21,6 +21,7 @@ public class Populator {
         SecurityDAO securityDAO = new SecurityDAO(emf);
         EntityManager em = emf.createEntityManager();
 
+
         try {
             em.getTransaction().begin();
 

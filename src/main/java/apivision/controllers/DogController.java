@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class DogController implements IController<DogDTO, Integer> {
-
     private final DogDAO dao;
 
     public DogController() {
