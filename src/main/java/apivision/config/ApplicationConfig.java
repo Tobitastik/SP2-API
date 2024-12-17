@@ -35,6 +35,7 @@ public class ApplicationConfig {
 
     public static Javalin startServer(int port) {
         Javalin app = Javalin.create(ApplicationConfig::configuration);
+
         app.before(ApplicationConfig::corsHeaders);
         app.options("/*", ApplicationConfig::corsHeadersOptions);
 
@@ -62,7 +63,6 @@ public class ApplicationConfig {
         logger.warn("An API exception occurred: Code: {}, Message: {}", e.getCode(), e.getMessage());
         ctx.json(Utils.convertToJsonMessage(ctx, "warning", e.getMessage()));
     }
-
     private static void corsHeaders(Context ctx) {
         ctx.header("Access-Control-Allow-Origin", "*");
         ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -77,7 +77,4 @@ public class ApplicationConfig {
         ctx.header("Access-Control-Allow-Credentials", "true");
         ctx.status(204);
     }
-
-
-
 }
