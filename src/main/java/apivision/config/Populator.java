@@ -7,6 +7,7 @@ import apivision.enums.DogStatus;
 import apivision.security.daos.SecurityDAO;
 import apivision.security.entitiess.Role;
 import apivision.security.entitiess.User;
+import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
@@ -30,19 +31,50 @@ public class Populator {
             User user = findOrCreateUser(em, "testuser", "password123"); // Password will be hashed
             user.addRole(adminRole); // Add role to user
 
+            User user2 = findOrCreateUser(em, "admin", "admin123"); // Password will be hashed
+             // Add role to user
+            user.addRole(adminRole);
+
+
+
             em.persist(user);
+            em.persist(user2);
+
             System.out.println("User and role successfully added to the database.");
 
             // Create and populate dogs
             Dog dog1 = new Dog(0, "Buddy", "Golden Retriever", 3, DogStatus.AVAILABLE, "Friendly and playful");
             Dog dog2 = new Dog(0, "Max", "German Shepherd", 5, DogStatus.AVAILABLE, "Loyal and protective");
             Dog dog3 = new Dog(0, "Bella", "Labrador Retriever", 2, DogStatus.ADOPTED, "Gentle and loving");
+            Dog dog4 = new Dog(0, "Charlie", "Bulldog", 4, DogStatus.AVAILABLE, "Calm and courageous");
+            Dog dog5 = new Dog(0, "Rocky", "Boxer", 6, DogStatus.AVAILABLE, "Energetic and strong");
+            Dog dog6 = new Dog(0, "Daisy", "Beagle", 1, DogStatus.ADOPTED, "Curious and cheerful");
+            Dog dog7 = new Dog(0, "Molly", "Poodle", 3, DogStatus.AVAILABLE, "Intelligent and playful");
+            Dog dog8 = new Dog(0, "Cooper", "Cocker Spaniel", 2, DogStatus.AVAILABLE, "Loving and social");
+            Dog dog9 = new Dog(0, "Sadie", "Shih Tzu", 4, DogStatus.ADOPTED, "Affectionate and loyal");
+            Dog dog10 = new Dog(0, "Ziggy", "Chihuahua", 5, DogStatus.AVAILABLE, "Small but fearless");
+            Dog dog11 = new Dog(0, "Luna", "Siberian Husky", 2, DogStatus.AVAILABLE, "Adventurous and friendly");
+            Dog dog12 = new Dog(0, "Jack", "Doberman Pinscher", 4, DogStatus.AVAILABLE, "Alert and confident");
+            Dog dog13 = new Dog(0, "Rex", "Rottweiler", 3, DogStatus.ADOPTED, "Protective and loyal");
+            Dog dog14 = new Dog(0, "Pepper", "Yorkshire Terrier", 1, DogStatus.AVAILABLE, "Playful and energetic");
 
             em.persist(dog1);
             em.persist(dog2);
             em.persist(dog3);
+            em.persist(dog4);
+            em.persist(dog5);
+            em.persist(dog6);
+            em.persist(dog7);
+            em.persist(dog8);
+            em.persist(dog9);
+            em.persist(dog10);
+            em.persist(dog11);
+            em.persist(dog12);
+            em.persist(dog13);
+            em.persist(dog14);
 
-            System.out.println("Dogs populated successfully!");
+            System.out.println("14 Dogs populated successfully!");
+
 
             // Create an adoption for dog3 (adopted dog)
             Adoption adoption = new Adoption(0, user.getUsername(), dog3, LocalDate.now(), AdoptionStatus.APPROVED);

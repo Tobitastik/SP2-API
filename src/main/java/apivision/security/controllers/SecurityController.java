@@ -23,6 +23,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.javalin.http.Context;
 
 import java.text.ParseException;
 import java.util.Set;
@@ -187,7 +188,14 @@ public class SecurityController implements ISecurityController {
                 ctx.status(404).json("{\"msg\": \"User not found\"}");
 
             }
-        };
-    }
 
+
+        };
+
+
+    }
+    // Health check for the API. Used in deployment
+    public void healthCheck(@NotNull Context ctx) {
+        ctx.status(200).json("{\"msg\": \"API is up and running\"}");
+    }
 }
