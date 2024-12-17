@@ -35,8 +35,9 @@ public class ApplicationConfig {
 
     public static Javalin startServer(int port) {
         Javalin app = Javalin.create(ApplicationConfig::configuration);
-app.before(ApplicationConfig::corsHeaders);
-app.options("/*", ApplicationConfig::corsHeadersOptions);
+
+        app.before(ApplicationConfig::corsHeaders);
+        app.options("/*", ApplicationConfig::corsHeadersOptions);
 
         app.beforeMatched(accessController::accessHandler);
 
@@ -76,7 +77,4 @@ app.options("/*", ApplicationConfig::corsHeadersOptions);
         ctx.header("Access-Control-Allow-Credentials", "true");
         ctx.status(204);
     }
-
-
-    
 }

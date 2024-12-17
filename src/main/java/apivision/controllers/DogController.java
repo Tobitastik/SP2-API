@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class DogController implements IController<DogDTO, Integer> {
-
     private final DogDAO dao;
 
     public DogController() {
@@ -21,13 +20,6 @@ public class DogController implements IController<DogDTO, Integer> {
 
     @Override
     public void read(Context ctx) {
-        UserDTO user = ctx.attribute("user");
-        if (!userHasRole(user, "ADMIN", "MASTER")) {
-            System.out.println("User does not have permission to access this resource. Roles: " + user.getRoles());
-            ctx.status(403).result("Forbidden: You do not have permission to access this resource.");
-            return;
-        }
-
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         DogDTO dogDTO = dao.read(id);
         ctx.status(200);
