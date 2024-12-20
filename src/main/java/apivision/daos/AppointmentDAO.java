@@ -53,8 +53,8 @@ public class AppointmentDAO {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
 
-            System.out.println("Persisting Appointment: " + entity);
-            System.out.println("Associated Dog: " + entity.getDog());
+            //System.out.println("Persisting Appointment: " + entity);
+            //System.out.println("Associated Dog: " + entity.getDog());
 
             Dog managedDog = em.merge(entity.getDog());
             entity.setDog(managedDog);
