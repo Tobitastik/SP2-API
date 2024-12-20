@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import lombok.NoArgsConstructor;
+import apivision.entities.Dog;
 
 
 import java.util.ArrayList;
@@ -51,10 +52,22 @@ public class AppointmentDAO {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            em.persist(entity);
+
+            //System.out.println("Persisting Appointment: " + entity);
+            //System.out.println("Associated Dog: " + entity.getDog());
+
+            Dog managedDog = em.merge(entity.getDog());
+            entity.setDog(managedDog);
+
+            em.persist(entity); // Persist the Appointment
+
             transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace(); // Log any exception
+            throw e; // Rethrow the exception for further handling
         }
     }
+
 
     public Appointment update(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
