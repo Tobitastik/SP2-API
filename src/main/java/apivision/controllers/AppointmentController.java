@@ -32,14 +32,13 @@ public class AppointmentController {
 
     public void read(Context ctx) {
         int id = ctx.pathParamAsClass("id", Integer.class).get();
-        Appointment appointment = appointmentDAO.read(id);
+        AppointmentDTO appointmentDTO = appointmentDAO.read(id);
 
-        if (appointment == null) {
+        if (appointmentDTO == null) {
             ctx.status(404).result("Appointment not found");
             return;
         }
 
-        AppointmentDTO appointmentDTO = AppointmentDTO.toDTO(appointment);
         ctx.status(200).json(appointmentDTO);
     }
 
@@ -48,64 +47,46 @@ public class AppointmentController {
 
         // Fetch the Dog entity
         DogDTO dogDTO = dogDAO.read(jsonRequest.getDogId());
-        Dog dog = DogDTO.convertToEntity(dogDTO); // Fetch Dog directly as an entity
+        Dog dog = DogDTO.convertToEntity(dogDTO);
         if (dog == null) {
             ctx.status(404).result("Dog not found");
             return;
         }
 
-        // Create the Appointment entity
         Appointment appointment = new Appointment();
         appointment.setUsername(jsonRequest.getUsername());
-        appointment.setDog(dog); // Associate the managed Dog entity
+        appointment.setDog(dog);
         appointment.setDate(jsonRequest.getDate());
         appointment.setStatus(AppointmentStatus.SCHEDULED);
 
-        // Persist the Appointment entity
         appointmentDAO.create(appointment);
 
-        // Respond with the created AppointmentDTO
         ctx.status(201).json(AppointmentDTO.toDTO(appointment));
     }
 
 
 
-    public void update(Context ctx) {
-        int id = ctx.pathParamAsClass("id", Integer.class).get();
-        AppointmentDTO jsonRequest = ctx.bodyAsClass(AppointmentDTO.class);
-
-        // Ensure the appointment exists
-        Appointment existingAppointment = appointmentDAO.read(id);
-        if (existingAppointment == null) {
-            ctx.status(404).result("Appointment not found");
-            return;
-        }
-
-        // Fetch the DogDTO using DogDAO
-        DogDTO dogDTO = dogDAO.read(jsonRequest.getDogId());
-        if (dogDTO == null) {
-            ctx.status(404).result("Dog not found");
-            return;
-        }
-
-        // Convert DogDTO to Dog entity
-        Dog dog = DogDTO.convertToEntity(dogDTO);
-
-        Appointment updatedAppointment = AppointmentDTO.toEntity(jsonRequest, dog);
-        appointmentDAO.update(updatedAppointment);
-        ctx.status(200).json(AppointmentDTO.toDTO(updatedAppointment));
-    }
-
     public void delete(Context ctx) {
         int id = ctx.pathParamAsClass("id", Integer.class).get();
 
-        Appointment appointment = appointmentDAO.read(id);
-        if (appointment == null) {
+        AppointmentDTO appointmentDTO = appointmentDAO.read(id);
+        if (appointmentDTO == null) {
             ctx.status(404).result("Appointment not found");
             return;
         }
 
         appointmentDAO.delete(id);
         ctx.status(204);
+    }
+
+    public void update(Context ctx) {
+        int id = ctx.pathParamAsClass("id", Integer.class).get();
+        AppointmentDTO jsonRequest = ctx.bodyAsClass(AppointmentDTO.class);
+
+        AppointmentDTO existingAppointmentDTO = appointmentDAO.read(id);
+        if (existingAppointmentDTO == null) {
+            ctx.status(404).result("Appointment not found");
+            return;
+        }
     }
 }

@@ -20,6 +20,7 @@ public class AppointmentDTO {
     private int id;
     private String username;
     private int dogId;
+    private String dogName; // Added dog's name
     private LocalDate date;
     private AppointmentStatus status;
 
@@ -27,6 +28,7 @@ public class AppointmentDTO {
         this.id = appointment.getId();
         this.username = appointment.getUsername();
         this.dogId = appointment.getDog().getId();
+        this.dogName = appointment.getDog().getName();
         this.date = appointment.getDate();
         this.status = appointment.getStatus();
     }
@@ -36,6 +38,7 @@ public class AppointmentDTO {
                 appointment.getId(),
                 appointment.getUsername(),
                 appointment.getDog().getId(),
+                appointment.getDog().getName(),
                 appointment.getDate(),
                 appointment.getStatus()
         );
