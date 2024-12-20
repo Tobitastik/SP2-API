@@ -12,7 +12,7 @@ public class AppointmentRoutes {
 
     public EndpointGroup getRoutes() {
         return () -> {
-            post("/", appointmentController::create, Role.ADMIN);
+            post("/", appointmentController::create, Role.USER);
             get("/", appointmentController::readAll, Role.USER);
             get("/{id}", appointmentController::read, Role.USER);
             put("/{id}", appointmentController::update, Role.ADMIN);

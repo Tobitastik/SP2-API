@@ -9,6 +9,7 @@ import apivision.entities.Appointment;
 import apivision.entities.Dog;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
+import apivision.enums.AppointmentStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,20 +46,28 @@ public class AppointmentController {
     public void create(Context ctx) {
         AppointmentDTO jsonRequest = ctx.bodyAsClass(AppointmentDTO.class);
 
-        // Fetch the DogDTO using DogDAO
+        // Fetch the Dog entity
         DogDTO dogDTO = dogDAO.read(jsonRequest.getDogId());
-        if (dogDTO == null) {
+        Dog dog = DogDTO.convertToEntity(dogDTO); // Fetch Dog directly as an entity
+        if (dog == null) {
             ctx.status(404).result("Dog not found");
             return;
         }
 
-        // Convert DogDTO to Dog entity
-        Dog dog = DogDTO.convertToEntity(dogDTO);
+        // Create the Appointment entity
+        Appointment appointment = new Appointment();
+        appointment.setUsername(jsonRequest.getUsername());
+        appointment.setDog(dog); // Associate the managed Dog entity
+        appointment.setDate(jsonRequest.getDate());
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
 
-        Appointment appointment = AppointmentDTO.toEntity(jsonRequest, dog);
+        // Persist the Appointment entity
         appointmentDAO.create(appointment);
+
+        // Respond with the created AppointmentDTO
         ctx.status(201).json(AppointmentDTO.toDTO(appointment));
     }
+
 
 
     public void update(Context ctx) {
