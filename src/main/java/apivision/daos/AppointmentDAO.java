@@ -30,7 +30,11 @@ public class AppointmentDAO {
     public List<AppointmentDTO> readAll() {
         List<AppointmentDTO> appointmentDTOList = new ArrayList<>();
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Appointment> query = em.createQuery("SELECT a FROM Appointment a", Appointment.class);
+            // Use a JOIN FETCH query to load Dog details with Appointments
+            TypedQuery<Appointment> query = em.createQuery(
+                    "SELECT a FROM Appointment a JOIN FETCH a.dog",
+                    Appointment.class
+            );
             List<Appointment> appointmentList = query.getResultList();
 
             // Convert each Appointment entity to AppointmentDTO
@@ -42,11 +46,23 @@ public class AppointmentDAO {
     }
 
 
-    public Appointment read(Integer integer) {
+
+    public AppointmentDTO read(Integer id) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.find(Appointment.class, integer);
+            TypedQuery<Appointment> query = em.createQuery(
+                    "SELECT a FROM Appointment a JOIN FETCH a.dog WHERE a.id = :id",
+                    Appointment.class
+            );
+            query.setParameter("id", id);
+
+            Appointment appointment = query.getSingleResult();
+            return AppointmentDTO.toDTO(appointment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
+
 
     public void create(Appointment entity) {
         try (EntityManager em = emf.createEntityManager()) {
